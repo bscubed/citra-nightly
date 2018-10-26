@@ -1,0 +1,90 @@
+{
+    "app-id": "org.citra.citra-nightly",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.11",
+    "sdk": "org.kde.Sdk",
+    "command": "citra-qt",
+    "rename-desktop-file": "citra.desktop",
+    "rename-icon": "citra",
+    "rename-appdata-file": "org.citra.citra-nightly.appdata.xml",
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.gcc7"
+    ],
+    "build-options": {
+        "env": {
+            "CC": "/usr/lib/sdk/gcc7/bin/gcc",
+            "CXX": "/usr/lib/sdk/gcc7/bin/g++"
+        }
+    },
+    "finish-args": [
+        "--device=all",
+        "--socket=x11",
+        "--socket=pulseaudio",
+        "--share=network",
+        "--share=ipc",
+        "--filesystem=xdg-config/citra-emu:create",
+        "--filesystem=xdg-data/citra-emu:create",
+        "--filesystem=host:ro"
+    ],
+    "modules": [
+        {
+            "name": "cmake",
+            "buildsystem": "cmake-ninja",
+            "cleanup": ["*"],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://cmake.org/files/v3.12/cmake-3.12.3.tar.gz",
+                    "sha256": "acbf13af31a741794106b76e5d22448b004a66485fc99f6d7df4d22e99da164a"
+                }
+            ]
+        },
+        {
+            "name": "citra",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DENABLE_QT_TRANSLATION=ON",
+                "-DCITRA_ENABLE_COMPATIBILITY_REPORTING=ON",
+                "-DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON"
+            ],
+            "cleanup": [
+              "/bin/citra",
+              "/share/man",
+              "/share/pixmaps"
+            ],
+            "post-install": [
+                "install -Dm644 ../appdata.xml /app/share/appdata/org.citra.citra-nightly.appdata.xml",
+                "desktop-file-install --dir=/app/share/applications ../dist/citra.desktop",
+                "sed -i 's/Name=Citra/Name=Citra Nightly/g' /app/share/applications/citra.desktop",
+                "echo 'StartupWMClass=citra-qt' >> /app/share/applications/citra.desktop",
+                "install -Dm644 ../dist/citra.svg /app/share/icons/hicolor/scalable/apps/citra.svg",
+                "install -Dm644 ../dist/icon.png /app/share/icons/hicolor/512x512/apps/citra.png",
+                "mv /app/share/mime/packages/citra.xml /app/share/mime/packages/org.citra.citra-nightly.xml",
+                "sed 's/citra/org.citra.citra-nightly/g' -i /app/share/mime/packages/org.citra.citra-nightly.xml",
+                "install -m644 --target-directory=/app/lib /usr/lib/sdk/gcc7/lib/libstdc++.so*"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "branch": "flatpak",
+                    "url": "../.."
+                },
+                {
+                    "type": "file",
+                    "path": "appdata.xml"
+                },
+                {
+                    "type": "patch",
+                    "path": "compatibility.patch"
+                },
+                {
+                    "type": "file",
+                    "path": "compatibility_list.json",
+                    "dest-filename": "dist/compatibility_list/compatibility_list.json"
+                }
+            ]
+        }
+    ]
+}
