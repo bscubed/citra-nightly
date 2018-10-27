@@ -29,7 +29,7 @@ echo "[$SSH_HOSTNAME]:$SSH_PORT,[$(dig +short $SSH_HOSTNAME)]:$SSH_PORT $SSH_PUB
 gpg2 --import "$GPG_KEY"
 
 # Download the Citra compatibility list
-curl --url https://api.citra-emu.org/gamedb/ -o "$CITRA_SRC_DIR/.travis/linux-flatpak/compatibility_list.json"
+curl --url https://api.citra-emu.org/gamedb/ -o "/tmp/compatibility_list.json"
 
 # Mount our flatpak repository
 mkdir -p "$REPO_DIR"

@@ -35,6 +35,6 @@ Thumbs.db
 *.pyc
 
 # Flatpak generated files
+dist/compatibility_list/compatibility_list.json
 .flatpak-builder/
-output/
 repo/
