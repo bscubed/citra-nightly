@@ -56,7 +56,7 @@ cat > /tmp/org.citra.$REPO_NAME.json <<EOF
         "env": {
             "CC": "/usr/lib/sdk/gcc7/bin/gcc",
             "CXX": "/usr/lib/sdk/gcc7/bin/g++",
-            "CI": "$CI"
+            "CI": "$CI",
             "TRAVIS": "$TRAVIS",
             "CONTINUOUS_INTEGRATION": "$CONTINUOUS_INTEGRATION",
             "TRAVIS_BRANCH": "$TRAVIS_BRANCH",
