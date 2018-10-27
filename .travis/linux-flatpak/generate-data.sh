@@ -122,7 +122,7 @@ cat > /tmp/org.citra.$REPO_NAME.json <<EOF
                 {
                     "type": "git",
                     "branch": "flatpak",
-                    "url": "../.."
+                    "url": "/citra"
                 },
                 {
                     "type": "file",
