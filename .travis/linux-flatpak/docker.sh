@@ -1,5 +1,7 @@
 #!/bin/bash -ex
 
+# Converts "citra-emu/citra-nightly" to "citra-nightly"
+REPO_NAME=$(echo $TRAVIS_REPO_SLUG | cut -d'/' -f 2)
 CITRA_SRC_DIR="/citra"
 BUILD_DIR="$CITRA_SRC_DIR/build"
 REPO_DIR="$CITRA_SRC_DIR/repo"
@@ -36,5 +38,5 @@ mkdir -p "$REPO_DIR"
 sshfs "$SSH_USER@$SSH_HOSTNAME:$SSH_LOCATION" "$REPO_DIR" -C -p "$SSH_PORT" -o IdentityFile="$SSH_KEY"
 
 # Build the citra flatpak
-flatpak-builder -v --jobs=4 --ccache --force-clean --state-dir="$STATE_DIR" --gpg-sign="$GPG_PUBLIC_KEY" --repo="$REPO_DIR" "$BUILD_DIR" "$CITRA_SRC_DIR"/.travis/linux-flatpak/org.citra.citra-nightly.json
+flatpak-builder -v --jobs=4 --ccache --force-clean --state-dir="$STATE_DIR" --gpg-sign="$GPG_PUBLIC_KEY" --repo="$REPO_DIR" "$BUILD_DIR" "/tmp/org.citra.$REPO_NAME.json
 flatpak build-update-repo "$REPO_DIR" -v --generate-static-deltas --gpg-sign="$GPG_PUBLIC_KEY"
