@@ -38,5 +38,5 @@ mkdir -p "$REPO_DIR"
 sshfs "$SSH_USER@$SSH_HOSTNAME:$SSH_LOCATION" "$REPO_DIR" -C -p "$SSH_PORT" -o IdentityFile="$SSH_KEY"
 
 # Build the citra flatpak
-flatpak-builder -v --jobs=4 --ccache --force-clean --state-dir="$STATE_DIR" --gpg-sign="$GPG_PUBLIC_KEY" --repo="$REPO_DIR" "$BUILD_DIR" "/tmp/org.citra.$REPO_NAME.json
+flatpak-builder -v --jobs=4 --ccache --force-clean --state-dir="$STATE_DIR" --gpg-sign="$GPG_PUBLIC_KEY" --repo="$REPO_DIR" "$BUILD_DIR" "/tmp/org.citra.$REPO_NAME.json"
 flatpak build-update-repo "$REPO_DIR" -v --generate-static-deltas --gpg-sign="$GPG_PUBLIC_KEY"
