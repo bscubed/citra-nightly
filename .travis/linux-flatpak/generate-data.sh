@@ -147,4 +147,4 @@ EOF
 chmod +x /tmp/appdata.xml /tmp/org.citra.$REPO_NAME.json
 
 # Call the script to build citra
-./docker.sh
+./citra/.travis/linux-flatpak/docker.sh
